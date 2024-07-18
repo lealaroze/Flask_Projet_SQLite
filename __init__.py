@@ -62,6 +62,17 @@ def ReadBDD():
 def formulaire_client():
     return render_template('formulaire.html')  # afficher le formulaire
 
+@app.route('/fiche_nom/', methods=['GET']) 
+def recherche_par_nom():
+    nom_client = request.args.get('nom')
+    # implémenter ici la logique pour rechercher le client par son nom
+    # Exemple simplifié de réponse JSON
+    if nom_client == 'John Doe':
+        client = {'nom': 'John Doe', 'email': 'john.doe@example.com'}
+        return jsonify(client), 200
+    else:
+        return jsonify({'message': 'Client non trouvé'}), 404
+
 @app.route('/enregistrer_client', methods=['POST'])
 def enregistrer_client():
     nom = request.form['nom']
