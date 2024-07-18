@@ -78,6 +78,7 @@ def enregistrer_client():
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
 @app.route('/fiche_nom/', methods=['GET', 'POST'])
+
 def fiche_nom():
     if not est_authentifie_user():  # Vérification de l'authentification utilisateur
         return redirect(url_for('authentification'))
@@ -88,7 +89,7 @@ def fiche_nom():
         cursor.execute('SELECT * FROM clients WHERE nom = ?', (nom_recherche,)) 
         data = cursor.fetchall()
         conn.close()
-        return render_template('read_data.html', data=data)
+        return redirect('/fiche_nom/', data=data)
     return render_template('formulaire_recherche_nom.html')  # Formulaire de recherche
                                                                                                                                        
 if __name__ == "__main__":
