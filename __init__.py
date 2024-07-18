@@ -3,7 +3,6 @@ from flask import render_template
 from flask import json
 from urllib.request import urlopen
 from werkzeug.utils import secure_filename
-from functools import wraps
 import sqlite3
 
 app = Flask(__name__)                                                                                                                  
@@ -15,7 +14,7 @@ def est_authentifie():
 
 @app.route('/')
 def hello_world():
-    return render_template('hello.html') #Comm4
+    return render_template('hello.html') #Comm3
 
 @app.route('/lecture')
 def lecture():
@@ -62,27 +61,6 @@ def ReadBDD():
 @app.route('/enregistrer_client', methods=['GET'])
 def formulaire_client():
     return render_template('formulaire.html')  # afficher le formulaire
-
-def authentification_user(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        auth = request.authorization
-        if auth and auth.username == 'user' and auth.password == '12345':
-            return f(*args, **kwargs)
-        else:
-            return jsonify({'message': 'Authentification requise'}), 401
-    return decorated_function
-
-@app.route('/fiche_nom/', methods=['GET'])
-@authentification_user
-def recherche_par_nom():
-    nom_client = request.args.get('nom')
-    # Implémentation de la recherche par nom
-    if nom_client == 'John Doe':
-        client = {'nom': 'John Doe', 'email': 'john.doe@example.com'}
-        return jsonify(client), 200
-    else:
-        return jsonify({'message': 'Client non trouvé'}), 404
 
 @app.route('/enregistrer_client', methods=['POST'])
 def enregistrer_client():
